@@ -1,0 +1,17 @@
+{
+  "uuid": "1f3e4a1c-ad3a-435c-a0a0-ddbd21b999bf",
+  "shortName": "Arc",
+  "longName": "Arc",
+  "companyName": "Adam Heins",
+  "versionCode": 1,
+  "versionLabel": "1.0",
+  "watchapp": {
+    "watchface": true
+  },
+  "appKeys": {
+    "dummy": 0
+  },
+  "resources": {
+    "media": []
+  }
+}
