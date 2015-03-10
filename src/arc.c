@@ -1,12 +1,16 @@
+/* Copyright (c) 2015 Adam Heins
+ *
+ * This file is part of the Arc project, which is distributed under the MIT
+ * license. For the the full terms, see the included LICENSE file.
+ */
+
 #include <pebble.h>
 
 /*
  * A simple watchface that displays time as two arcs around the watch,
  * one for hours and one for minutes.
- *
- * Author: Adam Heins
  */
-  
+
 static Window *s_main_window;
 static InverterLayer *s_invert_layer;
 static Layer *s_draw_layer;
@@ -15,12 +19,12 @@ static Layer *s_draw_layer;
 /*
  * Draws a pixel, as long as it falls between 90 degrees and the given angle.
  */
-static void draw_pixel(GContext *ctx, GPoint point, GPoint center, 
+static void draw_pixel(GContext *ctx, GPoint point, GPoint center,
         int32_t angle) {
 
     int32_t point_angle = atan2_lookup(point.y - center.y, point.x - center.x);
-    if (point_angle + TRIG_MAX_ANGLE / 4 < angle 
-        || (point_angle - TRIG_MAX_ANGLE * 0.75 < angle 
+    if (point_angle + TRIG_MAX_ANGLE / 4 < angle
+        || (point_angle - TRIG_MAX_ANGLE * 0.75 < angle
             && point_angle - TRIG_MAX_ANGLE * 0.75 > 0))
     graphics_draw_pixel(ctx, point);
 }
@@ -29,7 +33,7 @@ static void draw_pixel(GContext *ctx, GPoint point, GPoint center,
 /*
  * Draws an arc between 90 degrees and an angle.
  */
-static void draw_arc(GContext *ctx, GPoint center, int32_t r, 
+static void draw_arc(GContext *ctx, GPoint center, int32_t r,
         int32_t to_angle) {
 
     int32_t x = r;
@@ -60,7 +64,7 @@ static void draw_arc(GContext *ctx, GPoint center, int32_t r,
  * Draws an arc that can be multiple pixels wide.
  * Contains some artifacts (adds to the charm).
  */
-static void draw_thick_arc(GContext *ctx, GPoint center, int32_t inner_radius, 
+static void draw_thick_arc(GContext *ctx, GPoint center, int32_t inner_radius,
         int32_t outer_radius, int32_t to_angle) {
     for (int32_t i = inner_radius; i < outer_radius; ++i)
         draw_arc(ctx, center, i, to_angle);
@@ -71,7 +75,7 @@ static void draw_thick_arc(GContext *ctx, GPoint center, int32_t inner_radius,
  * Update proc for the layer on which the arc is drawn, s_draw_layer.
  */
 static void draw_update_proc(Layer *this_layer, GContext *ctx) {
-  
+
     // Distances to each circle.
     int32_t hours_dist = 44;
     int32_t minutes_dist = 54;
@@ -101,7 +105,7 @@ static void main_window_load(Window *window) {
 
     Layer *window_layer = window_get_root_layer(window);
     GRect bounds = layer_get_bounds(window_layer);
-  
+
     s_invert_layer = inverter_layer_create(bounds);
 
     s_draw_layer = layer_create(bounds);
@@ -116,7 +120,7 @@ static void main_window_unload(Window *window) {
     layer_destroy(s_draw_layer);
     inverter_layer_destroy(s_invert_layer);
 }
-  
+
 
 static void init() {
     s_main_window = window_create();
